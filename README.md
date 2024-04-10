@@ -6,4 +6,4 @@ This project created with Redux, TS, React JS, Material - Joy UI.
 
 #
 
-Here you can start todoing [Todo App](https://react-todo-app-lake-iota-51.vercel.app)
+Here you can start todoing [Todo App](https://redux-todo-app-woad-six.vercel.app)
