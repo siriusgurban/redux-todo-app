@@ -29,7 +29,7 @@ export default function ColorSchemeToggle(props: IconButtonProps) {
   return (
     <IconButton
       id="toggle-mode"
-      size="sm"
+      size="lg"
       variant="outlined"
       color="neutral"
       {...other}

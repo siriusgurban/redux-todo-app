@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import todoSlice from './todoSlice'
+import loadSlice from './loadSlice'
 
 export const store = configureStore({
   reducer: {
     todo: todoSlice,
+    load: loadSlice,
   },
 })
 

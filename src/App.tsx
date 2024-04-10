@@ -1,96 +1,71 @@
 // @ts-nocheck
 
-import { useState } from 'react'
-
-import './App.css'
 import type { RootState } from './store/store'
-import { useSelector, useDispatch } from 'react-redux'
-import { addTodo, fillTodo } from './store/todoSlice'
-import { useEffect } from 'react'
-import axios from 'axios'
-
-import * as React from 'react'
-import Button from '@mui/joy/Button'
-import { CssBaseline, CssVarsProvider } from '@mui/joy'
-import ColorSchemeToggle from './components/ColorSchemeToggle'
+import { useSelector } from 'react-redux'
+import { Box, CssBaseline, CssVarsProvider, extendTheme } from '@mui/joy'
+import InputAdd from './components/InputAdd'
+import CardTodo from './components/CardTodo'
+import SkeletonCard from './components/SkeletonCard'
+import Header from './components/Header'
 
 function App() {
-  const [title, setTitle] = useState()
-  const [check, setCheck] = useState(false)
-  const [idcount, setIdcount] = useState(201)
   const todos = useSelector((state: RootState) => state.todo.todo)
-  const dispatch = useDispatch()
+  const loads = useSelector((state: RootState) => state.load.load)
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await axios.get('https://jsonplaceholder.typicode.com/todos')
-      dispatch(fillTodo(res.data))
-
-      console.log(res.data, 'resDATA')
-    }
-    fetchData()
-  }, [dispatch])
-
-  function handleIdcount() {
-    setIdcount((prev) => (prev += 1))
-  }
+  const customTheme = extendTheme({
+    typography: {
+      h2: {
+        background:
+          'linear-gradient(-30deg, var(--joy-palette-primary-700), var(--joy-palette-primary-400))',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      },
+    },
+  })
 
   return (
     <>
-      <CssVarsProvider disableTransitionOnChange>
-        <CssBaseline /> <ColorSchemeToggle sx={{ alignSelf: 'center' }} />
-        {console.log(todos, 'todos')}
-        <Button variant="solid">Hello world</Button>;
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input
-          type="checkbox"
-          placeholder="Completed"
-          checked={check}
-          onChange={(e) => setCheck(e.target.checked)}
-        />
-        <button
-          onClick={() =>
-            dispatch(
-              addTodo({ id: idcount, title: title, completed: check }),
-              handleIdcount(),
-            )
-          }
+      <CssVarsProvider disableTransitionOnChange theme={customTheme}>
+        <CssBaseline />
+        <Box
+          maxWidth="1200px"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          mx="auto"
+          mt={8}
         >
-          Add
-        </button>
-        <div>
-          {todos
-            ?.filter((item) => item?.id > 200)
-            ?.map((item, index) => {
-              return (
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    border: '1px solid black',
-                  }}
-                  key={index}
-                >
-                  <h3
-                    style={
-                      item?.completed
-                        ? { textDecoration: 'line-through' }
-                        : { textDecoration: '' }
-                    }
-                  >
-                    {item?.title}
-                  </h3>
-                  <div>{item?.completed ? 'true' : 'false'}</div>
-                  <h3>{item?.id}</h3>
-                </div>
-              )
-            })}
-        </div>
+          <Header />
+
+          <InputAdd />
+
+          <Box display="flex" flexWrap="wrap" gap="2%">
+            {loads ? (
+              <Box
+                display="flex"
+                flexWrap="wrap"
+                justifyContent="space-between"
+              >
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </Box>
+            ) : (
+              todos
+                ?.filter((item) => item?.id > 195)
+                ?.map((item, index) => {
+                  return (
+                    <CardTodo
+                      title={item?.title}
+                      id={item?.id}
+                      completed={item?.completed}
+                      key={index}
+                    />
+                  )
+                })
+            )}
+          </Box>
+        </Box>
       </CssVarsProvider>
     </>
   )

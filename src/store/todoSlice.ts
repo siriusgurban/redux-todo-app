@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface TodoState {
   todo: number
@@ -15,15 +14,9 @@ export const todoSlice = createSlice({
   name: 'todo',
   initialState,
   reducers: {
-    // increment: (state) => {
-    //   state.value += 1
-    // },
-    // decrement: (state) => {
-    //   state.value -= 1
-    // },
-    // incrementByAmount: (state, action: PayloadAction<number>) => {
-    //   state.value += action.payload
-    // },
+    loadTodo: (state, action) => {
+      state.todo = [action.payload]
+    },
     fillTodo: (state, action) => {
       state.todo = [...action.payload]
     },
@@ -49,6 +42,7 @@ export const todoSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  loadTodo,
   fillTodo,
   addTodo,
   increment,
