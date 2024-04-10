@@ -15,4 +15,12 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+
+  resolve: {
+    alias: {
+      '@mui/material': '@mui/joy',
+    },
+  },
+
+
 }
