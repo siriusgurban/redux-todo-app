@@ -27,7 +27,6 @@ export default function InputAdd() {
     async function fetchData() {
       try {
         dispatch(loadTodo(true))
-        console.log(loads, 'loads 2')
         const res = await axios.get(
           'https://jsonplaceholder.typicode.com/todos',
         )

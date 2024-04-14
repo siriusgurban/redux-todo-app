@@ -29,11 +29,12 @@ export const todoSlice = createSlice({
     },
 
     completedTodo: (state, action) => {
-      const completedIndex = action.payload.index
+      const completedIndex = action.payload
       const completed = action.payload.completed
       const newData = [...state.todo]
 
-      newData[completedIndex].completed = completed
+      newData[completedIndex - 1].completed = !newData[completedIndex - 1]
+        .completed
 
       state.todo = newData
     },
@@ -45,6 +46,8 @@ export const {
   loadTodo,
   fillTodo,
   addTodo,
+  rmvTodo,
+  completedTodo,
   increment,
   decrement,
   incrementByAmount,
